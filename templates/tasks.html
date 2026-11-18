@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Задачи · Universal Utility Tool{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', path='tasks.css') }}">
+<div class="tasks-heading">
+  <h1>Задачи</h1>
+  <div class="tasks-actions">
+    <button id="sections-button" type="button">Разделы</button>
+    <button id="new-task" class="tasks-primary" type="button">Новая задача</button>
+  </div>
+</div>
+<nav class="tasks-tabs" aria-label="Представление задач">
+  <button id="board-tab" aria-pressed="true" type="button">Доска</button>
+  <button id="archive-tab" aria-pressed="false" type="button">Архив</button>
+</nav>
+<p id="board-status" role="status" hidden></p>
+<div id="task-board"></div>
+
+<dialog id="section-dialog" aria-labelledby="sections-title">
+  <div class="tasks-heading">
+    <h2 id="sections-title">Разделы доски</h2>
+    <button type="button" data-close aria-label="Закрыть">×</button>
+  </div>
+  <form id="section-form">
+    <label>Раздел<select id="section-choice" name="section"></select></label>
+    <label>Название<input name="name" maxlength="60" required></label>
+    <p class="tasks-error" id="section-error" role="status" hidden></p>
+    <button class="tasks-primary" type="submit">Сохранить раздел</button>
+  </form>
+</dialog>
+
+<dialog id="task-dialog" aria-labelledby="task-title">
+  <div class="tasks-heading">
+    <h2 id="task-title">Задача</h2>
+    <button type="button" data-close aria-label="Закрыть">×</button>
+  </div>
+  <form id="task-form">
+    <fieldset id="task-fields">
+      <label>Название<input name="title" maxlength="160" required></label>
+      <label>Описание<textarea name="description" maxlength="12000" rows="4"></textarea></label>
+      <div class="task-form-grid">
+        <label>Раздел<select name="section_id" required></select></label>
+        <label id="task-status-field">Статус<select name="status"></select></label>
+        <label>Дедлайн<input type="date" name="deadline"></label>
+        <label>Кто поставил<input name="assigned_by" maxlength="160"></label>
+        <label>Критичность<select name="priority"></select></label>
+      </div>
+    </fieldset>
+    <p id="task-archive-info" hidden></p>
+    <div class="tasks-actions" id="task-controls">
+      <button class="tasks-primary" type="submit">Сохранить задачу</button>
+      <button id="cancel-task" type="button">Отменить задачу</button>
+    </div>
+  </form>
+  <section id="task-messages" hidden aria-labelledby="messages-title">
+    <h3 id="messages-title">Сообщения</h3>
+    <div id="message-list"></div>
+    <form id="message-form">
+      <label>Новое сообщение<textarea name="body" rows="3" maxlength="8000" required></textarea></label>
+      <button type="submit">Добавить сообщение</button>
+    </form>
+  </section>
+  <p class="tasks-error" id="task-error" role="status" hidden></p>
+</dialog>
+<script src="{{ url_for('static', path='tasks.js') }}" defer></script>
+{% endblock %}
