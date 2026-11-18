@@ -1,3 +1,5 @@
 @echo off
-cd /d "%~dp0" || exit /b 1
-".venv\Scripts\python.exe" -m uvicorn app:app --host 127.0.0.1 --port 8000 --app-dir "%CD%"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0server.ps1" -Start
+set "START_EXIT=%ERRORLEVEL%"
+if not "%START_EXIT%"=="0" pause
+exit /b %START_EXIT%
