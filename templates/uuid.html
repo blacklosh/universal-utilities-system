@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Генератор UUID · Universal Utility Tool{% endblock %}
+{% block content %}
+<h1>Генератор UUID</h1>
+<div class="tool-grid">
+  <form class="panel" id="uuid-form" data-endpoint="{{ url_for('generate_uuid') }}">
+    <fieldset>
+      <legend>Версия UUID</legend>
+      <label class="option">
+        <input type="radio" name="version" value="4" checked>
+        <span><strong>UUID v4</strong><small>Случайные данные</small></span>
+      </label>
+      <label class="option">
+        <input type="radio" name="version" value="7">
+        <span><strong>UUID v7</strong><small>Время Unix в миллисекундах и случайные данные</small></span>
+      </label>
+    </fieldset>
+    <label class="count" for="count">Количество</label>
+    <input id="count" name="count" type="number" min="1" max="{{ max_count }}" step="1" value="1" required>
+    <button class="primary" id="generate" type="submit">Сгенерировать</button>
+  </form>
+  <section class="panel result" aria-label="Результаты">
+    <div class="result-header">
+      <label for="output">Результат</label>
+      <button id="copy" type="button" disabled>Копировать всё</button>
+    </div>
+    <textarea id="output" rows="9" readonly spellcheck="false" wrap="off" placeholder="UUID появятся здесь"></textarea>
+    <p id="status" role="status"></p>
+  </section>
+</div>
+<script src="{{ url_for('static', path='uuid.js') }}" defer></script>
+{% endblock %}

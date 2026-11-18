@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Universal Utility Tool{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='app.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <nav class="shell" aria-label="Основная навигация">
+      <a class="brand" href="{{ url_for('catalog') }}">Universal Utility Tool</a>
+      <a class="nav-link" href="{{ url_for('catalog') }}">Каталог</a>
+    </nav>
+  </header>
+  <main class="shell">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

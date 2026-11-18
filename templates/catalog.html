@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Инструменты</h1>
+<a class="panel tool-card" href="{{ url_for('uuid_page') }}">
+  <span class="tool-icon" aria-hidden="true">#</span>
+  <h2>Генератор UUID</h2>
+  <p>Создавайте UUID v4 и v7 по одному или списком.</p>
+</a>
+{% endblock %}
