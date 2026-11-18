@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Конвертер Base64 · Universal Utility Tool{% endblock %}
+{% block content %}
+<h1>Конвертер Base64</h1>
+<div class="tool-grid base64-grid">
+  <section class="panel" aria-label="Ввод">
+    <div class="result-header">
+      <label for="base64-input">Текст или Base64</label>
+    </div>
+    <textarea id="base64-input" rows="9" spellcheck="false" dir="auto"></textarea>
+    <div class="base64-actions">
+      <button class="primary" id="base64-encode" type="button">Кодировать в Base64</button>
+      <button id="base64-decode" type="button">Декодировать</button>
+    </div>
+  </section>
+  <section class="panel" aria-label="Результат">
+    <div class="result-header">
+      <label for="base64-output">Результат</label>
+      <button id="base64-copy" type="button" disabled>Копировать</button>
+    </div>
+    <textarea id="base64-output" rows="9" readonly spellcheck="false" dir="auto"></textarea>
+    <p id="status" role="status"></p>
+  </section>
+</div>
+<script src="{{ url_for('static', path='base64.js') }}" defer></script>
+{% endblock %}

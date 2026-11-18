@@ -41,3 +41,10 @@ textarea::placeholder { color: #a5b3c8; }
 #status { min-height: 1.5em; margin: .6rem 0 0; font-size: .875rem; }
 :focus-visible { outline: 2px solid #a2ebcb; outline-offset: 3px; }
 @media (max-width: 42rem) { .tool-grid { grid-template-columns: 1fr; } }
+
+.catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1rem; max-width: 49rem; }
+.catalog-grid .tool-card { max-width: none; }
+.base64-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.base64-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+.base64-actions .primary { display: inline-block; width: auto; margin-top: 0; }
+@media (max-width: 42rem) { .base64-grid { grid-template-columns: 1fr; } }

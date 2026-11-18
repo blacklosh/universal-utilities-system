@@ -17,3 +17,8 @@ app.include_router(uuid_router)
 @app.get("/", name="catalog")
 def catalog(request: Request):
     return templates.TemplateResponse(request, "catalog.html")
+
+
+@app.get("/tools/base64/", name="base64_page")
+def base64_page(request: Request):
+    return templates.TemplateResponse(request, "base64.html")

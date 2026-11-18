@@ -1,9 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Инструменты</h1>
+<div class="catalog-grid">
 <a class="panel tool-card" href="{{ url_for('uuid_page') }}">
   <span class="tool-icon" aria-hidden="true">#</span>
   <h2>Генератор UUID</h2>
   <p>Создавайте UUID v4 и v7 по одному или списком.</p>
 </a>
+<a class="panel tool-card" href="{{ url_for('base64_page') }}">
+  <span class="tool-icon" aria-hidden="true">64</span>
+  <h2>Конвертер Base64</h2>
+  <p>Кодируйте текст в Base64 и декодируйте обратно.</p>
+</a>
+</div>
 {% endblock %}
