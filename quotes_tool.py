@@ -1,11 +1,10 @@
 from contextlib import closing
-from hashlib import sha256
 from pathlib import Path
 import sqlite3
 from typing import Annotated
 
 from fastapi import APIRouter, HTTPException, Request
-from pydantic import BaseModel, Field, StringConstraints
+from pydantic import BaseModel, StringConstraints
 
 
 router = APIRouter(prefix="/tools/quotes")
@@ -15,11 +14,6 @@ database = Path(__file__).resolve().parent / "data" / "quotes.sqlite3"
 class QuoteInput(BaseModel):
     body: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=20000)]
     source: Annotated[str, StringConstraints(strip_whitespace=True, max_length=500)] = ""
-
-
-class ImportedQuote(QuoteInput):
-    key: Annotated[str, StringConstraints(min_length=1, max_length=120)]
-    created_at: Annotated[int, Field(ge=0, le=253402300799, strict=True)]
 
 
 def initialize_quotes():
@@ -40,7 +34,6 @@ def initialize_quotes():
             )
         """)
         db.execute("CREATE INDEX quotes_by_date ON quotes(created_at DESC, id DESC)")
-        db.execute("CREATE TABLE imported_messages (fingerprint TEXT PRIMARY KEY)")
         db.execute("PRAGMA user_version = 1")
 
 
@@ -71,19 +64,3 @@ def delete_quote(quote_id: int):
         result = db.execute("DELETE FROM quotes WHERE id = ?", (quote_id,))
         if not result.rowcount:
             raise HTTPException(404, "Фраза не найдена.")
-
-
-@router.post("/api/import")
-def import_quotes(items: Annotated[list[ImportedQuote], Field(min_length=1, max_length=250)]):
-    added = 0
-    with closing(sqlite3.connect(database)) as db, db:
-        for item in items:
-            fingerprint = sha256(item.key.encode()).hexdigest()
-            result = db.execute("INSERT OR IGNORE INTO imported_messages VALUES (?)", (fingerprint,))
-            if result.rowcount:
-                db.execute(
-                    "INSERT INTO quotes (body, source, created_at) VALUES (?, ?, ?)",
-                    (item.body, item.source, item.created_at),
-                )
-                added += 1
-    return {"added": added, "skipped": len(items) - added}

@@ -5,7 +5,6 @@
 <div class="quotes-heading">
   <h1>#ВеликиеФразыВеликих</h1>
   <div class="quotes-actions">
-    <button id="quotes-import" type="button">Импорт из Telegram</button>
     <button id="quotes-add" class="quotes-primary" type="button">Добавить фразу</button>
   </div>
 </div>
@@ -27,16 +26,5 @@
   </form>
 </dialog>
 
-<dialog id="import-dialog" aria-labelledby="import-title">
-  <h2 id="import-title">Импорт из Telegram</h2>
-  <p>В Telegram Desktop экспортируйте историю чата «Избранное» в JSON и выберите файл <code>result.json</code>. Можно указать источники перед сохранением.</p>
-  <input type="file" id="telegram-file" accept=".json,application/json" aria-label="JSON-экспорт Telegram">
-  <p id="import-status" role="status"></p>
-  <div id="import-preview"></div>
-  <div class="quotes-actions">
-    <button class="quotes-primary" id="import-save" type="button" disabled>Импортировать</button>
-    <button type="button" data-close>Закрыть</button>
-  </div>
-</dialog>
 <script src="{{ url_for('static', path='quotes.js') }}" defer></script>
 {% endblock %}
