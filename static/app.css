@@ -52,3 +52,6 @@ textarea::placeholder { color: #a5b3c8; }
 .base64-result { margin-top: 1rem; }
 .base64-status { min-height: 1.5em; margin: .6rem 0 0; font-size: .875rem; }
 @media (max-width: 42rem) { .base64-grid { grid-template-columns: 1fr; } }
+
+#jwt-secret { width: 100%; background: #101722; border: 1px solid #475570; border-radius: .55rem; padding: .65rem .75rem; color: inherit; font: inherit; }
+.base64-actions .primary { width: auto; margin-top: 0; }

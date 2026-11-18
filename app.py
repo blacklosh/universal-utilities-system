@@ -22,3 +22,8 @@ def catalog(request: Request):
 @app.get("/tools/base64/", name="base64_page")
 def base64_page(request: Request):
     return templates.TemplateResponse(request, "base64.html")
+
+
+@app.get("/tools/jwt/", name="jwt_page")
+def jwt_page(request: Request):
+    return templates.TemplateResponse(request, "jwt.html")

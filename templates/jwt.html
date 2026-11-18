@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Редактор JWT · Universal Utility Tool{% endblock %}
+{% block content %}
+<h1>Редактор JWT</h1>
+<div class="tool-grid base64-grid">
+  <section class="panel base64-panel">
+    <h2>Разбор токена</h2>
+    <label for="jwt-input">Исходный JWT</label>
+    <textarea id="jwt-input" rows="7" spellcheck="false" autocomplete="off"></textarea>
+    <div class="base64-actions">
+      <button id="jwt-decode" type="button">Раскодировать</button>
+    </div>
+    <p id="jwt-decode-status" class="base64-status" role="status"></p>
+    <p>Расшифровка заголовка и payload не проверяет подпись токена.</p>
+  </section>
+  <section class="panel base64-panel">
+    <h2>Редактирование и подпись</h2>
+    <label for="jwt-header">Заголовок JSON</label>
+    <textarea id="jwt-header" rows="4" spellcheck="false"></textarea>
+    <label class="count" for="jwt-payload">Payload JSON</label>
+    <textarea id="jwt-payload" rows="6" spellcheck="false"></textarea>
+    <label class="count" for="jwt-secret">Секретный ключ (UTF-8)</label>
+    <input id="jwt-secret" type="password" autocomplete="off" spellcheck="false">
+    <p>Для подписи укажите в заголовке <code>alg</code> со значением <code>HS256</code>, <code>HS384</code> или <code>HS512</code>.</p>
+    <div class="base64-actions">
+      <button id="jwt-sign" type="button" class="primary">Подписать JWT</button>
+    </div>
+    <div class="result-header base64-result">
+      <label for="jwt-output">Подписанный JWT</label>
+      <button id="jwt-copy" type="button" disabled>Копировать</button>
+    </div>
+    <textarea id="jwt-output" rows="5" readonly spellcheck="false"></textarea>
+    <p id="jwt-sign-status" class="base64-status" role="status"></p>
+  </section>
+</div>
+<script src="{{ url_for('static', path='jwt.js') }}" defer></script>
+{% endblock %}
