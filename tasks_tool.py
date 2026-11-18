@@ -1,5 +1,6 @@
 from contextlib import closing, contextmanager
 from datetime import date
+from hashlib import sha256
 from pathlib import Path
 import sqlite3
 from typing import Annotated, Literal
@@ -9,7 +10,8 @@ from pydantic import BaseModel, StringConstraints
 
 
 router = APIRouter(prefix="/tools/tasks")
-database = Path(__file__).resolve().parent / "data" / "tasks.sqlite3"
+root = Path(__file__).resolve().parent
+database = root / "data" / "tasks.sqlite3"
 archive_delay = 3 * 24 * 60 * 60
 archived_at = f"coalesce(cancelled_at, CASE WHEN done_at <= unixepoch() - {archive_delay} THEN done_at + {archive_delay} END)"
 
@@ -120,7 +122,11 @@ def require_task(db, task_id, *, active=False):
 
 @router.get("/", name="tasks_page")
 def tasks_page(request: Request):
-    return request.app.state.templates.TemplateResponse(request, "tasks.html")
+    assets = {
+        name: sha256((root / "static" / name).read_bytes()).hexdigest()[:12]
+        for name in ("tasks.css", "tasks.js")
+    }
+    return request.app.state.templates.TemplateResponse(request, "tasks.html", {"assets": assets})
 
 
 @router.get("/api/board")
