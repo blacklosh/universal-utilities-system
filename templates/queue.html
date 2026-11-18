@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Очередь произведений · Universal Utility Tool{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', path='queue.css') }}">
+<h1>Очередь произведений</h1>
+<form class="panel queue-form" id="queue-add" data-endpoint="{{ url_for('queue_add') }}">
+  <label>Тип
+    <select name="kind" required>
+      {% for kind, (label, _) in kinds.items() %}
+      <option value="{{ kind }}">{{ label }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>Название<input name="title" maxlength="240" required></label>
+  <button type="submit" class="queue-add-button">Добавить в очередь</button>
+</form>
+<p id="queue-status" role="status"></p>
+{% if items %}
+<ol class="queue-list" aria-label="Очередь от самых давних к новым">
+  {% for item in items %}
+  {% set label, action = kinds[item.kind] %}
+  <li class="panel queue-item">
+    <div>
+      <h2>{{ item.title }}</h2>
+      <div class="queue-meta">
+        <span>{{ label }}</span>
+        <time datetime="{{ item.added.isoformat() }}">{{ item.added.strftime('%d.%m.%Y') }}</time>
+      </div>
+    </div>
+    <button type="button" data-complete="{{ url_for('queue_complete', item_id=item.id) }}"
+            aria-label="{{ action }}: {{ item.title }}">{{ action }}</button>
+  </li>
+  {% endfor %}
+</ol>
+{% else %}
+<p>Очередь пока пуста.</p>
+{% endif %}
+<script src="{{ url_for('static', path='queue.js') }}" defer></script>
+{% endblock %}

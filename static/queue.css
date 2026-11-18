@@ -1,0 +1,11 @@
+.queue-form, .queue-list { max-width: 52rem; }
+.queue-form { display: grid; grid-template-columns: 8rem minmax(0, 1fr) auto; align-items: end; gap: .7rem; }
+.queue-form label { display: grid; gap: .3rem; font-weight: 650; }
+.queue-form :is(input, select) { width: 100%; min-width: 0; padding: .6rem .7rem; border-radius: .55rem; border: 1px solid #475570; background: #101722; color: inherit; font: inherit; }
+.queue-add-button { background: #a2ebcb; color: #132722; border-color: transparent; }
+.queue-list { display: grid; gap: .65rem; padding: 0; margin: 1rem 0; list-style: none; }
+.queue-item { display: flex; gap: .7rem 1.25rem; justify-content: space-between; align-items: center; flex-wrap: wrap; padding: .85rem 1rem; }
+.queue-item h2 { margin: 0; overflow-wrap: anywhere; }
+.queue-meta { display: flex; gap: .45rem .85rem; flex-wrap: wrap; color: #b7c6dc; font-size: .875rem; }
+#queue-status:empty { display: none; }
+@media (max-width: 38rem) { .queue-form { grid-template-columns: 1fr; } }
