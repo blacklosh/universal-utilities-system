@@ -1,10 +1,10 @@
-const input = document.querySelector("#base64-input");
-const output = document.querySelector("#base64-output");
-const copy = document.querySelector("#base64-copy");
-const status = document.querySelector("#status");
+const encodeInput = document.querySelector("#encode-input");
+const fileInput = document.querySelector("#encode-file");
+const encodeTextButton = document.querySelector("#encode-text");
+const encodeFileButton = document.querySelector("#encode-file-button");
+const decodeInput = document.querySelector("#decode-input");
 
-function encodeBase64(text) {
-  const bytes = new TextEncoder().encode(text);
+function encodeBase64(bytes) {
   const chunks = [];
   const chunkSize = 16384;
   for (let offset = 0; offset < bytes.length; offset += chunkSize) {
@@ -13,50 +13,89 @@ function encodeBase64(text) {
   return btoa(chunks.join(""));
 }
 
-function decodeBase64(binary) {
-  const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
-  return new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(bytes);
+function createResult(output, copy, status) {
+  copy.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(output.value);
+      status.textContent = "Результат скопирован.";
+    } catch {
+      output.focus();
+      output.select();
+      status.textContent = "Результат выделен. Нажмите Ctrl+C, чтобы скопировать.";
+    }
+  });
+
+  return (text, message) => {
+    output.value = text;
+    output.scrollTop = 0;
+    copy.disabled = text.length === 0;
+    status.textContent = message;
+  };
 }
 
-function showResult(text, message) {
-  output.value = text;
-  output.scrollTop = 0;
-  copy.disabled = text.length === 0;
-  status.textContent = message;
-}
+const showEncoded = createResult(
+  document.querySelector("#encode-output"),
+  document.querySelector("#encode-copy"),
+  document.querySelector("#encode-status"),
+);
+const showDecoded = createResult(
+  document.querySelector("#decode-output"),
+  document.querySelector("#decode-copy"),
+  document.querySelector("#decode-status"),
+);
 
-document.querySelector("#base64-encode").addEventListener("click", () => {
-  showResult(encodeBase64(input.value), input.value ? "Текст закодирован." : "Введите текст.");
+encodeTextButton.addEventListener("click", () => {
+  const text = encodeInput.value;
+  try {
+    showEncoded(encodeBase64(new TextEncoder().encode(text)), text ? "Текст закодирован." : "Введите текст.");
+  } catch {
+    showEncoded("", "Не удалось закодировать текст.");
+  }
 });
 
-document.querySelector("#base64-decode").addEventListener("click", () => {
-  if (!input.value.trim()) {
-    showResult("", "Введите строку Base64.");
+fileInput.addEventListener("change", () => {
+  encodeFileButton.disabled = !fileInput.files.length;
+});
+
+encodeFileButton.addEventListener("click", async () => {
+  const [file] = fileInput.files;
+  if (!file) return;
+
+  fileInput.disabled = true;
+  encodeTextButton.disabled = true;
+  encodeFileButton.disabled = true;
+  showEncoded("", "Чтение файла…");
+  try {
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    showEncoded(encodeBase64(bytes), bytes.length ? "Файл закодирован." : "Файл пуст. Результат — пустая строка.");
+  } catch {
+    showEncoded("", "Не удалось прочитать или закодировать файл.");
+  } finally {
+    fileInput.disabled = false;
+    encodeTextButton.disabled = false;
+    encodeFileButton.disabled = !fileInput.files.length;
+  }
+});
+
+document.querySelector("#decode-text").addEventListener("click", () => {
+  if (!decodeInput.value.trim()) {
+    showDecoded("", "Введите строку Base64.");
     return;
   }
 
-  let binary;
+  let bytes;
   try {
-    binary = atob(input.value);
+    const binary = atob(decodeInput.value);
+    bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
   } catch {
-    showResult("", "Некорректная строка Base64.");
+    showDecoded("", "Некорректная строка Base64.");
     return;
   }
 
   try {
-    showResult(decodeBase64(binary), "Строка декодирована.");
+    const text = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(bytes);
+    showDecoded(text, "Строка декодирована.");
   } catch {
-    showResult("", "Строка Base64 содержит данные, которые не являются текстом UTF-8.");
-  }
-});
-
-copy.addEventListener("click", async () => {
-  try {
-    await navigator.clipboard.writeText(output.value);
-    status.textContent = "Результат скопирован.";
-  } catch {
-    output.focus();
-    output.select();
-    status.textContent = "Результат выделен. Нажмите Ctrl+C, чтобы скопировать.";
+    showDecoded("", "Строка Base64 содержит данные, которые не являются текстом UTF-8.");
   }
 });

@@ -46,5 +46,9 @@ textarea::placeholder { color: #a5b3c8; }
 .catalog-grid .tool-card { max-width: none; }
 .base64-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .base64-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
-.base64-actions .primary { display: inline-block; width: auto; margin-top: 0; }
+.base64-panel h2 { margin: 0 0 1rem; }
+.base64-panel > label { display: block; margin-bottom: .35rem; }
+.base64-panel input[type="file"] { max-width: 100%; font: inherit; }
+.base64-result { margin-top: 1rem; }
+.base64-status { min-height: 1.5em; margin: .6rem 0 0; font-size: .875rem; }
 @media (max-width: 42rem) { .base64-grid { grid-template-columns: 1fr; } }
