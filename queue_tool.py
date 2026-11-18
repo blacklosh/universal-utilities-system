@@ -50,24 +50,28 @@ def initialize_queue():
         db.execute("PRAGMA user_version = 1")
 
 
-def pending_items():
+def queue_items(*, history: bool):
+    query = (
+        """SELECT id, kind, title, completed_at AS timestamp FROM queue_items
+           WHERE completed_at IS NOT NULL ORDER BY completed_at DESC, id DESC"""
+        if history else
+        """SELECT id, kind, title, created_at AS timestamp FROM queue_items
+           WHERE completed_at IS NULL ORDER BY created_at ASC, id ASC"""
+    )
     with closing(sqlite3.connect(database)) as db:
         db.row_factory = sqlite3.Row
         return [
-            {**dict(row), "added": datetime.fromtimestamp(row["created_at"], UTC)}
-            for row in db.execute("""
-                SELECT id, kind, title, created_at FROM queue_items
-                WHERE completed_at IS NULL ORDER BY created_at ASC, id ASC
-            """)
+            {**dict(row), "date": datetime.fromtimestamp(row["timestamp"], UTC)}
+            for row in db.execute(query)
         ]
 
 
 @router.get("/", name="queue_page")
-def queue_page(request: Request):
+def queue_page(request: Request, history: bool = False):
     return request.app.state.templates.TemplateResponse(
         request,
         "queue.html",
-        {"items": pending_items(), "kinds": kinds},
+        {"items": queue_items(history=history), "kinds": kinds, "history": history},
         headers={"Cache-Control": "no-store"},
     )
 

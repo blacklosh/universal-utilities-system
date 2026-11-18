@@ -3,6 +3,11 @@
 {% block content %}
 <link rel="stylesheet" href="{{ url_for('static', path='queue.css') }}">
 <h1>Очередь произведений</h1>
+<nav class="queue-tabs" aria-label="Представление очереди">
+  <a href="{{ url_for('queue_page') }}"{% if not history %} aria-current="page"{% endif %}>Очередь</a>
+  <a href="{{ url_for('queue_page').include_query_params(history=1) }}"{% if history %} aria-current="page"{% endif %}>История</a>
+</nav>
+{% if not history %}
 <form class="panel queue-form" id="queue-add" data-endpoint="{{ url_for('queue_add') }}">
   <label>Тип
     <select name="kind" required>
@@ -15,8 +20,9 @@
   <button type="submit" class="queue-add-button">Добавить в очередь</button>
 </form>
 <p id="queue-status" role="status"></p>
+{% endif %}
 {% if items %}
-<ol class="queue-list" aria-label="Очередь от самых давних к новым">
+<ol class="queue-list" aria-label="{{ 'Завершённые произведения' if history else 'Очередь от самых давних к новым' }}">
   {% for item in items %}
   {% set label, action = kinds[item.kind] %}
   <li class="panel queue-item">
@@ -24,16 +30,19 @@
       <h2>{{ item.title }}</h2>
       <div class="queue-meta">
         <span>{{ label }}</span>
-        <time datetime="{{ item.added.isoformat() }}">{{ item.added.strftime('%d.%m.%Y') }}</time>
+        {% if history %}<span>{{ action }}</span>{% endif %}
+        <time datetime="{{ item.date.isoformat() }}">{{ item.date.strftime('%d.%m.%Y') }}</time>
       </div>
     </div>
+    {% if not history %}
     <button type="button" data-complete="{{ url_for('queue_complete', item_id=item.id) }}"
             aria-label="{{ action }}: {{ item.title }}">{{ action }}</button>
+    {% endif %}
   </li>
   {% endfor %}
 </ol>
 {% else %}
-<p>Очередь пока пуста.</p>
+<p>{{ 'Завершённых произведений пока нет.' if history else 'Очередь пока пуста.' }}</p>
 {% endif %}
 <script src="{{ url_for('static', path='queue.js') }}" defer></script>
 {% endblock %}

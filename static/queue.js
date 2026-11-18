@@ -27,7 +27,7 @@ async function save(button, endpoint, data) {
   }
 }
 
-form.addEventListener("submit", (event) => {
+form?.addEventListener("submit", (event) => {
   event.preventDefault();
   if (event.submitter.disabled) return;
   save(event.submitter, form.dataset.endpoint, Object.fromEntries(new FormData(form)));
