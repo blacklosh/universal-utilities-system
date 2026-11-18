@@ -11,11 +11,12 @@
 .tasks-tabs button { margin-bottom: .45rem; background: transparent; }
 .tasks-tabs button[aria-pressed="true"] { color: #a2ebcb; border-color: #90e5c2; }
 .tasks-scroll { overflow-x: auto; padding-bottom: .75rem; }
-.tasks-lane { min-width: 53rem; margin-bottom: 1rem; }
+.tasks-lane { margin-bottom: 1rem; }
 .tasks-lane h2 { margin: 1rem 0 .5rem; }
-.tasks-columns { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .6rem; }
-.tasks-column { min-height: 8.5rem; background: #151b28; border: 1px solid #354259; border-radius: .65rem; padding: .5rem; }
-.tasks-column h3 { display: flex; justify-content: space-between; gap: .25rem; margin: 0 0 .5rem; font-size: .875rem; padding: .25rem; }
+.tasks-columns { display: grid; width: 100%; gap: .45rem; }
+.tasks-cards { display: grid; grid-template-columns: repeat(var(--card-columns), minmax(0, 1fr)); gap: .35rem; align-items: start; }
+.tasks-column { min-width: 0; min-height: 5.25rem; background: #151b28; border: 1px solid #354259; border-radius: .65rem; padding: .35rem; }
+.tasks-column h3 { display: flex; justify-content: space-between; gap: .25rem; margin: 0 0 .5rem; font-size: .8125rem; padding: .15rem; overflow-wrap: anywhere; }
 .tasks-column h3 span { color: #b7c6dc; font-weight: 400; }
 .tasks-column.is-over { background: #213632; border-color: #90e5c2; }
 .task-card {
@@ -29,6 +30,10 @@
   background: #242e41;
   overflow-wrap: anywhere;
 }
+.tasks-cards .task-card { gap: .12rem; padding: .35rem .4rem; margin: 0; border-radius: .4rem; }
+.tasks-cards .task-card strong { font-size: .875rem; }
+.tasks-cards .task-card span { font-size: .75rem; }
+.tasks-cards .task-card .task-summary { -webkit-line-clamp: 1; }
 .task-card strong { line-height: 1.3; }
 .task-card span { font-size: .875rem; color: #c2cede; }
 .task-card .task-summary { white-space: pre-wrap; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }

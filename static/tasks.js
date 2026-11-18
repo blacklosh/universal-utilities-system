@@ -85,9 +85,14 @@ function taskCard(task) {
 function boardColumn(section, status, label) {
   const column = element("section", undefined, "tasks-column");
   const items = tasks.filter((task) => task.section_id === section.id && task.status === status);
+  const cardColumns = items.length >= 12 ? 3 : items.length >= 6 ? 2 : 1;
+  const cards = element("div", undefined, "tasks-cards");
+  cards.style.setProperty("--card-columns", cardColumns);
+  cards.append(...items.map(taskCard));
+
   const heading = element("h3", label);
   heading.append(element("span", String(items.length)));
-  column.append(heading, ...items.map(taskCard));
+  column.append(heading, cards);
   column.addEventListener("dragover", (event) => {
     if (!draggedTask) return;
     event.preventDefault();
@@ -111,7 +116,10 @@ function boardColumn(section, status, label) {
       feedback(boardStatus, error.message);
     }
   });
-  return column;
+  const width = items.length
+    ? "minmax(" + (cardColumns * 7.75 + 0.75) + "rem, " + cardColumns + "fr)"
+    : "minmax(" + (status === "blocked" ? 8.75 : 6.5) + "rem, .55fr)";
+  return { column, width };
 }
 
 function renderBoard() {
@@ -129,7 +137,9 @@ function renderBoard() {
   for (const section of sections) {
     const lane = element("section", undefined, "tasks-lane");
     const columns = element("div", undefined, "tasks-columns");
-    for (const [status, label] of Object.entries(statuses)) columns.append(boardColumn(section, status, label));
+    const tracks = Object.entries(statuses).map(([status, label]) => boardColumn(section, status, label));
+    columns.style.gridTemplateColumns = tracks.map(({ width }) => width).join(" ");
+    columns.append(...tracks.map(({ column }) => column));
     lane.append(element("h2", section.name), columns);
     scroll.append(lane);
   }
