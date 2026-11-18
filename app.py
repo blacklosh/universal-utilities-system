@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+from hashlib import sha256
 from pathlib import Path
 
 from fastapi import FastAPI, Request
@@ -23,6 +24,13 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="Universal Utility Tool", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=root / "static"), name="static")
 templates = Jinja2Templates(directory=root / "templates")
+
+
+def app_css_version():
+    return sha256((root / "static" / "app.css").read_bytes()).hexdigest()[:12]
+
+
+templates.env.globals["app_css_version"] = app_css_version
 app.state.templates = templates
 app.include_router(uuid_router)
 app.include_router(tasks_router)

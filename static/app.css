@@ -17,10 +17,21 @@ h1 { margin: 0 0 1.5rem; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; }
 h2 { margin: .75rem 0 .25rem; font-size: 1.25rem; }
 p { color: #b7c6dc; }
 .panel { background: #1a2232; border: 1px solid #354259; border-radius: 1rem; padding: clamp(1rem, 3vw, 1.5rem); }
-.tool-card { display: block; max-width: 24rem; text-decoration: none; }
+.tool-card {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  column-gap: .65rem;
+  row-gap: .15rem;
+  align-items: start;
+  padding: .8rem;
+  border-radius: .65rem;
+  text-decoration: none;
+}
+.tool-card h2 { margin: 0; font-size: 1rem; line-height: 1.35; overflow-wrap: anywhere; }
 .tool-card:hover { border-color: #90e5c2; }
-.tool-card p { margin: 0; }
-.tool-icon { display: inline-grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: .65rem; background: #263f3d; color: #a7f1d2; font: 700 1.5rem Consolas, monospace; }
+.tool-card p { grid-column: 2; margin: 0; font-size: .875rem; line-height: 1.35; }
+.tool-icon { display: inline-grid; place-items: center; grid-row: 1 / 3; width: 2rem; height: 2rem; border-radius: .45rem; background: #263f3d; color: #a7f1d2; font: 700 1.1rem Consolas, monospace; }
 .tool-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 1rem; align-items: start; }
 fieldset { margin: 0; padding: 0; border: 0; }
 legend, .count, .result-header label { font-weight: 650; }
@@ -42,8 +53,7 @@ textarea::placeholder { color: #a5b3c8; }
 :focus-visible { outline: 2px solid #a2ebcb; outline-offset: 3px; }
 @media (max-width: 42rem) { .tool-grid { grid-template-columns: 1fr; } }
 
-.catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1rem; max-width: 49rem; }
-.catalog-grid .tool-card { max-width: none; }
+.catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: .65rem; max-width: 50rem; }
 .base64-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .base64-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
 .base64-panel h2 { margin: 0 0 1rem; }
