@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}ВеликиеФразыВеликих · Universal Utility Tool{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', path='quotes.css') }}">
+<div class="quotes-heading">
+  <h1>#ВеликиеФразыВеликих</h1>
+  <div class="quotes-actions">
+    <button id="quotes-import" type="button">Импорт из Telegram</button>
+    <button id="quotes-add" class="quotes-primary" type="button">Добавить фразу</button>
+  </div>
+</div>
+<p id="quotes-status" role="status"></p>
+<div id="quotes-list" class="quotes-list"></div>
+
+<dialog id="quote-dialog" aria-labelledby="quote-title">
+  <form id="quote-form">
+    <h2 id="quote-title">Новая фраза</h2>
+    <label for="quote-body">Фраза</label>
+    <textarea id="quote-body" name="body" rows="5" maxlength="20000" required autofocus></textarea>
+    <label for="quote-source">Источник</label>
+    <input id="quote-source" name="source" maxlength="500" placeholder="Книга, фильм или автор">
+    <p id="quote-error" role="status"></p>
+    <div class="quotes-actions">
+      <button class="quotes-primary" type="submit">Сохранить</button>
+      <button type="button" data-close>Закрыть</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="import-dialog" aria-labelledby="import-title">
+  <h2 id="import-title">Импорт из Telegram</h2>
+  <p>В Telegram Desktop экспортируйте историю чата «Избранное» в JSON и выберите файл <code>result.json</code>. Можно указать источники перед сохранением.</p>
+  <input type="file" id="telegram-file" accept=".json,application/json" aria-label="JSON-экспорт Telegram">
+  <p id="import-status" role="status"></p>
+  <div id="import-preview"></div>
+  <div class="quotes-actions">
+    <button class="quotes-primary" id="import-save" type="button" disabled>Импортировать</button>
+    <button type="button" data-close>Закрыть</button>
+  </div>
+</dialog>
+<script src="{{ url_for('static', path='quotes.js') }}" defer></script>
+{% endblock %}

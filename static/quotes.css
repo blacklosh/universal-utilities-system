@@ -1,0 +1,22 @@
+.quotes-heading { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.quotes-heading h1 { margin: 0; overflow-wrap: anywhere; }
+.quotes-actions { display: flex; flex-wrap: wrap; gap: .6rem; }
+.quotes-primary { background: #a2ebcb; color: #132722; border-color: transparent; }
+.quotes-list { display: grid; gap: .85rem; max-width: 52rem; }
+.quote-card blockquote { margin: 0 0 .8rem; font-size: 1.15rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+.quote-meta { display: flex; align-items: baseline; flex-wrap: wrap; gap: .3rem .75rem; }
+.quote-meta span { overflow-wrap: anywhere; }
+.quote-meta time { color: #a7b7cd; font-size: .8125rem; }
+.quote-meta button { margin-left: auto; padding: .25rem .5rem; font-size: .875rem; }
+dialog { width: min(46rem, calc(100% - 2rem)); max-height: 90vh; padding: 1.25rem; border: 1px solid #475570; border-radius: .9rem; color: inherit; background: #1a2232; }
+dialog::backdrop { background: rgb(0 0 0 / .68); }
+dialog h2 { margin-top: 0; }
+dialog label { display: block; margin: .75rem 0 .25rem; font-weight: 600; }
+dialog input:not([type="file"]) { width: 100%; border: 1px solid #475570; border-radius: .55rem; padding: .6rem; font: inherit; color: inherit; background: #101722; }
+dialog input[type="file"] { width: 100%; font: inherit; }
+#quote-error:empty, #quotes-status:empty { display: none; }
+.quotes-list { margin-top: 1.25rem; }
+#import-preview { max-height: 45vh; overflow: auto; margin-bottom: .8rem; }
+#import-preview article { border-top: 1px solid #475570; padding: .55rem .2rem; }
+#import-preview article p { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; }
+#import-preview label { font-size: .875rem; }

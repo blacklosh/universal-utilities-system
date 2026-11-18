@@ -5,6 +5,7 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from quotes_tool import initialize_quotes, router as quotes_router
 from tasks_tool import initialize_tasks, router as tasks_router
 from uuid_tool import router as uuid_router
 
@@ -13,6 +14,7 @@ root = Path(__file__).resolve().parent
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     initialize_tasks()
+    initialize_quotes()
     yield
 
 
@@ -22,6 +24,7 @@ templates = Jinja2Templates(directory=root / "templates")
 app.state.templates = templates
 app.include_router(uuid_router)
 app.include_router(tasks_router)
+app.include_router(quotes_router)
 
 
 @app.get("/", name="catalog")
