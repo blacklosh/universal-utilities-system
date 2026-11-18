@@ -51,3 +51,8 @@ def base64_page(request: Request):
 @app.get("/tools/jwt/", name="jwt_page")
 def jwt_page(request: Request):
     return templates.TemplateResponse(request, "jwt.html")
+
+
+@app.get("/tools/json/", name="json_page")
+def json_page(request: Request):
+    return templates.TemplateResponse(request, "json.html")

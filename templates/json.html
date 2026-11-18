@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Форматтер JSON · Universal Utility Tool{% endblock %}
+{% block content %}
+<h1>Форматтер JSON</h1>
+<div class="tool-grid base64-grid">
+  <form class="panel base64-panel" id="json-form">
+    <div class="result-header"><label for="json-input">Исходный JSON</label></div>
+    <textarea id="json-input" rows="14" spellcheck="false" wrap="off"></textarea>
+    <div class="base64-actions">
+      <button class="primary" type="submit">Форматировать</button>
+    </div>
+    <p class="base64-status" id="json-status" role="status"></p>
+    <pre id="json-error-context" hidden></pre>
+  </form>
+  <section class="panel base64-panel">
+    <div class="result-header">
+      <label for="json-output">Отформатированный JSON</label>
+      <button id="json-copy" type="button" disabled>Копировать</button>
+    </div>
+    <textarea id="json-output" rows="14" readonly spellcheck="false" wrap="off"></textarea>
+    <p class="base64-status" id="json-copy-status" role="status"></p>
+  </section>
+</div>
+<script src="{{ url_for('static', path='json.js') }}" defer></script>
+{% endblock %}

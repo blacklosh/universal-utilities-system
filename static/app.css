@@ -65,3 +65,8 @@ textarea::placeholder { color: #a5b3c8; }
 
 #jwt-secret { width: 100%; background: #101722; border: 1px solid #475570; border-radius: .55rem; padding: .65rem .75rem; color: inherit; font: inherit; }
 .base64-actions .primary { width: auto; margin-top: 0; }
+
+#json-input[aria-invalid="true"] { border-color: #ff9ea1; }
+#json-input[aria-invalid="true"] ~ #json-status { color: #ffb2b5; }
+#json-error-context { margin: 0; padding: .6rem; background: #101722; overflow: auto; border-radius: .4rem; }
+#json-error-context mark { background: #ffb2b5; color: #201118; }
